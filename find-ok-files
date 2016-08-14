@@ -1,0 +1,12 @@
+#!/bin/sh
+
+while read f; do
+	if ffprobe -loglevel warning $f; then 
+		printf 'file %s\n' $f >> files-ok.txt
+	else 
+		corrupted=$((corrupted+1)) 
+	fi 
+done
+
+echo "now run ffmpag:
+echo -e "\tffmpeg -safe 0 -f concat -i files-ok.txt  -vcodec copy -acodec cop out.mp4"
